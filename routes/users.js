@@ -11,10 +11,9 @@ router.route('/').get(auth,(req,res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/add').post(auth,(req, res) => {
+router.route('/add').post((req, res) => {
     const username = req.body.username;
     const password = req.body.password;
-
     bcrypt.hash(password, 10)
         .then( hashedPassword => {
             let password = hashedPassword
