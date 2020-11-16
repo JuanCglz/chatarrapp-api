@@ -14,8 +14,9 @@ router.route('/monthly').get((req,res) => {
     date = new Date()
     month = date.getMonth()
     year = date.getFullYear()
-    console.log(month, year)
-    Exam.find({date : {$gte: new Date(year,month,1)}}).sort({"score" : "desc"})
+    today = date.getDate()
+    console.log(month, year, today)
+    Exam.find({date : {$gte: new Date(year,month,1), $lte: new Date(year,month,today)}}).sort({"score" : "desc"})
         .then(exams => res.json(exams))
         .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -26,7 +27,8 @@ router.route('/add').post((req, res) => {
     const size = req.body.size;
     const pool = req.body.pool;
     const attempts = req.body.attempts;
-    const description = req.body.description
+    const description = req.body.description;
+    const date = req.body.date;
     
     const newExam = new Exam({
         examName,
@@ -34,7 +36,8 @@ router.route('/add').post((req, res) => {
         size,
         pool,
         attempts,
-        description
+        description,
+        date
     });
 
     newExam.save()

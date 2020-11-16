@@ -14,7 +14,6 @@ router.route('/scores').get((req,res) => {
     date = new Date()
     month = date.getMonth()
     year = date.getFullYear()
-    console.log(month, year)
     Attempt.find({date : {$gte: new Date(year,month,1)}}).sort({"score" : "desc"})
         .then(attempts => res.json(attempts))
         .catch(err => res.status(400).json('Error: ' + err));
