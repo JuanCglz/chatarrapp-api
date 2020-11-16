@@ -10,6 +10,16 @@ router.route('/').get((req,res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/monthly').get((req,res) => {
+    date = new Date()
+    month = date.getMonth()
+    year = date.getFullYear()
+    console.log(month, year)
+    Exam.find({date : {$gte: new Date(year,month,1)}}).sort({"score" : "desc"})
+        .then(exams => res.json(exams))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
 router.route('/add').post((req, res) => {
     const examName = req.body.examName;
     const images = req.body.images;
