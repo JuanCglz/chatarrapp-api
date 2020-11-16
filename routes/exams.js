@@ -1,8 +1,9 @@
 const router = require('express').Router();
-
-const auth = require('../middleware/auth')
+const auth = require('../middleware/auth');
 let Exam = require('../models/exam.model');
-router.use(auth)
+
+// router.use(auth)
+
 router.route('/').get((req,res) => {
     Exam.find()
         .then(exams => res.json(exams))
@@ -12,12 +13,18 @@ router.route('/').get((req,res) => {
 router.route('/add').post((req, res) => {
     const examName = req.body.examName;
     const images = req.body.images;
+    const size = req.body.size;
+    const pool = req.body.pool;
+    const attempts = req.body.attempts;
     const description = req.body.description
     
     const newExam = new Exam({
         examName,
         images,
-        description,
+        size,
+        pool,
+        attempts,
+        description
     });
 
     newExam.save()
@@ -42,6 +49,9 @@ router.route('/update/:id').post((req, res) => {
         .then(exam => {
             exam.examName = req.body.examName;
             exam.images = req.body.images;
+            exam.size = req.body.size;
+            exam.pool = req.body.pool;
+            exam.attempts = req.body.pool;
             exam.description = req.body.description;
 
             exam.save()
