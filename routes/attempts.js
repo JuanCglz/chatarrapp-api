@@ -41,13 +41,15 @@ router.route('/scoresWeek').get((req,res) => {
 
 router.route('/add').post((req, res) => {
     const username = req.body.username;
-    const exam = req.body.exam;
+    const examName = req.body.examName;
+    const examID = req.body.examID;
     const score = Number(req.body.score);
     const date = Date.parse(req.body.date);
     
     const newAttempt = new Attempt({
         username,
-        exam,
+        examName,
+        examID,
         score,
         date,
     });
