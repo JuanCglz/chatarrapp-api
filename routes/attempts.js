@@ -10,6 +10,7 @@ router.route('/').get((req,res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// Scores for the current month
 router.route('/scores').get((req,res) => {
     date = new Date()
     month = date.getMonth()
@@ -19,6 +20,7 @@ router.route('/scores').get((req,res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// Scores for the past month
 router.route('/scoresPast').get((req,res) => {
     date = new Date()
     month = date.getMonth() - 1
@@ -28,6 +30,7 @@ router.route('/scoresPast').get((req,res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// Scores for the current week
 router.route('/scoresWeek').get((req,res) => {
     date = Date.now()
     today = new Date(date)

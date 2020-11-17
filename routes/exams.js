@@ -10,6 +10,7 @@ router.route('/').get((req,res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// This will only get the exams for a certain month needs to be reworked
 router.route('/monthly').get((req,res) => {
     date = new Date()
     month = date.getMonth()
