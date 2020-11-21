@@ -26,18 +26,16 @@ router.route('/add').post((req, res) => {
     const examName = req.body.examName;
     const images = req.body.images;
     const size = req.body.size;
-    const pool = req.body.pool;
     const attempts = req.body.attempts;
     const description = req.body.description;
     const date = req.body.date;
     
     const newExam = new Exam({
         examName,
+        description,
         images,
         size,
-        pool,
         attempts,
-        description,
         date
     });
 
@@ -62,11 +60,10 @@ router.route('/update/:id').post((req, res) => {
     Exam.findById(req.params.id)
         .then(exam => {
             exam.examName = req.body.examName;
+            exam.description = req.body.description;
             exam.images = req.body.images;
             exam.size = req.body.size;
-            exam.pool = req.body.pool;
             exam.attempts = req.body.pool;
-            exam.description = req.body.description;
 
             exam.save()
                 .then(() => res.json('Exam updated!'))

@@ -10,8 +10,8 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const uri = process.env.ATLAS_URI;
-mongoose.connect(uri, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true});
+const URI = process.env.ATLAS_URI;
+mongoose.connect(URI, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true});
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log("MongoDB database connection established successfully");
@@ -23,7 +23,7 @@ const imagesRouter = require('./routes/images')
 const examsRouter = require('./routes/exams');
 const attemptsRouter = require('./routes/attempts');
 const reportRouter = require('./routes/reports');
-const adminRouter = require('./routes/admins')
+const adminsRouter = require('./routes/admins')
 
 // Route directions
 app.use('/users', usersRouter);
@@ -31,8 +31,7 @@ app.use('/images', imagesRouter);
 app.use('/exams', examsRouter);
 app.use('/attempts', attemptsRouter);
 app.use('/reports', reportRouter );
-app.use('/admins', adminRouter);
-
+app.use('/admins', adminsRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

@@ -7,10 +7,11 @@ const attemptSchema = new Schema({
     examName: { type: String, required: true },
     examID: { type: Schema.Types.ObjectId, ref: 'Exam' },
     score: { type: Number, required: true },
-    attempt: { type: Number },
+    attempt: { type: Number, required: true },
     date: { type: Date, required: true },
+    examDueDate: {type: Date, required: true}
 }, {
-    timestamps: true,
+    timestamps: true
 });
 
 const Attempt = mongoose.model('Attempt', attemptSchema);

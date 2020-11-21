@@ -18,7 +18,7 @@ const adminSchema = new Schema({
         minlength: 8
     }
 }, {
-    timestamps: true,
+    timestamps: true
 });
 
 const Admin = mongoose.model('Admin', adminSchema);
