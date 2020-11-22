@@ -3,7 +3,7 @@ const auth = require('../middleware/auth')
 let Attempt = require('../models/attempt.model');
 let Exam = require('../models/exam.model');
 
-//router.use(auth)
+router.use(auth)
 
 router.route('/').get((req,res) => {
     Attempt.find()

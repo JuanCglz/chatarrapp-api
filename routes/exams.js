@@ -2,7 +2,7 @@ const router = require('express').Router();
 const auth = require('../middleware/auth');
 let Exam = require('../models/exam.model');
 
-//router.use(auth)
+router.use(auth)
 
 router.route('/').get((req,res) => {
     Exam.find()
