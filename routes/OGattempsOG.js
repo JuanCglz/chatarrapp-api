@@ -2,7 +2,7 @@ const router = require('express').Router();
 const auth = require('../middleware/auth')
 let Attempt = require('../models/attempt.model');
 
-router.use(auth)
+//router.use(auth)
 
 router.route('/scores').get((req,res) => {
     Attempt.find()

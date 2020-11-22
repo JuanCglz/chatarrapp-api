@@ -3,7 +3,7 @@ const auth = require('../middleware/auth')
 let Attempt = require('../models/attempt.model');
 let Exam = require('../models/exam.model');
 
-router.use(auth)
+//router.use(auth)
 
 router.route('/').get((req,res) => {
     Attempt.find()
@@ -34,11 +34,10 @@ router.route('/scoresPast').get((req,res) => {
 router.route('/scoresWeek').get((req,res) => {
     date = Date.now()
     today = new Date(date)
-    //week = 1000 * 60 * 60 * 24 * 7
-    //lastWeek = new Date(today - week)
-    //console.log(today, lastWeek, date, week)
-    //Attempt.find({date : {$gte: lastWeek, $lte: today}}).sort({"score" : "desc"})
-    Attempt.find({examDueDate : {$gte: today}}).sort({"score" : "desc"})
+    week = 1000 * 60 * 60 * 24 * 7
+    lastWeek = new Date(today - week)
+    console.log(today, lastWeek, date, week)
+    Attempt.find({date : {$gte: lastWeek, $lte: today}}).sort({"score" : "desc"})
         .then(attempts => res.json(attempts))
         .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -48,15 +47,14 @@ router.route('/add').post((req, res) => {
     const examName = req.body.examName;
     const score = Number(req.body.score);
     const date = Date.parse(req.body.date);
-    const examDueDate = Date.parse(req.body.examDueDate);
     const examID = req.body.examID;
     const newAttempt = new Attempt({
         username,
         examName,
+        examID,
         score,
-        date,
-        examDueDate,
-        examID
+        attempt,
+        date
     });
     
     newAttempt.save()
@@ -80,8 +78,10 @@ router.route('/update/:id').post((req, res) => {
     Attempt.findById(req.params.id)
         .then(attempt => {
             attempt.username = req.body.username;
-            attempt.exam = req.body.exam;
+            attempt.examName = req.body.examName;
+            attempt.examID = req.body.examID;
             attempt.score = Number(req.body.score);
+            attempt.score = Number(req.body.attempt);
             attempt.date = Date.parse(req.body.date);
             attempt.save()
                 .then(() => res.json('Exam updated!'))
@@ -105,16 +105,14 @@ router.route('/getAttempt').post((req,res) => {
                         const examName = exam.examName;
                         const score = 0;
                         const date = Date.now();
-                        const examDueDate = Date.parse(exam.dueDate);
                         const attempt = exam.attempts;
                         const newAttempt = new Attempt({
                             username,
                             examName,
-                            score,
-                            date,
-                            examDueDate,
                             examID,
-                            attempt
+                            score,
+                            attempt,
+                            date
                         });
                         newAttempt.save()
                             .then(newAt => res.json(newAt))

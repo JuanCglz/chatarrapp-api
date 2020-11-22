@@ -2,7 +2,7 @@ const router = require('express').Router();
 const auth = require('../middleware/auth');
 let Exam = require('../models/exam.model');
 
-// router.use(auth)
+//router.use(auth)
 
 router.route('/').get((req,res) => {
     Exam.find()
@@ -24,10 +24,10 @@ router.route('/monthly').get((req,res) => {
 
 router.route('/add').post((req, res) => {
     const examName = req.body.examName;
+    const description = req.body.description;
     const images = req.body.images;
     const size = req.body.size;
     const attempts = req.body.attempts;
-    const description = req.body.description;
     const date = req.body.date;
     
     const newExam = new Exam({
@@ -63,7 +63,7 @@ router.route('/update/:id').post((req, res) => {
             exam.description = req.body.description;
             exam.images = req.body.images;
             exam.size = req.body.size;
-            exam.attempts = req.body.pool;
+            exam.date = req.body.date;
 
             exam.save()
                 .then(() => res.json('Exam updated!'))

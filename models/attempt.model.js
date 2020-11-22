@@ -8,8 +8,7 @@ const attemptSchema = new Schema({
     examID: { type: Schema.Types.ObjectId, ref: 'Exam' },
     score: { type: Number, required: true },
     attempt: { type: Number, required: true },
-    date: { type: Date, required: true },
-    examDueDate: {type: Date, required: true}
+    date: { type: Date, required: true }
 }, {
     timestamps: true
 });

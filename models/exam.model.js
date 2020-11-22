@@ -8,8 +8,7 @@ const examSchema = new Schema({
     images:[{ type: Schema.Types.ObjectId, ref: 'Image' }],
     size: { type: Number, required: true },
     attempts : { type: Number, required: true },
-    date: { type: Date, required: true },
-    examDueDate: {type: Date, required: true}
+    date: { type: Date, required: true }
 }, {
     timestamps: true,
 });
