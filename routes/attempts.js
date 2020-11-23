@@ -22,11 +22,33 @@ router.route('/scores').get((req,res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/scores').post((req,res) => {
+    const username = req.body.username
+    date = new Date()
+    month = date.getMonth()
+    year = date.getFullYear()
+    Attempt.find({date : {$gte: new Date(year,month,1)}, username: username}).sort({"score" : "desc"})
+        .then(attempts => {
+            res.json(getMonthlyScores(attempts));
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
 router.route('/scoresPast').get((req,res) => {
     date = new Date()
     month = date.getMonth() - 1
     year = date.getFullYear()
     Attempt.find({date : {$gte: new Date(year,month,1), $lte: new Date(year, month, 31)}}).sort({"score" : "desc"})
+        .then(attempts => res.json(getMonthlyScores(attempts)))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/scoresPast').post((req,res) => {
+    const username = req.body.username
+    date = new Date()
+    month = date.getMonth() - 1
+    year = date.getFullYear()
+    Attempt.find({date : {$gte: new Date(year,month,1), $lte: new Date(year, month, 31)}, username: username}).sort({"score" : "desc"})
         .then(attempts => res.json(getMonthlyScores(attempts)))
         .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -41,6 +63,19 @@ router.route('/scoresWeek').get((req,res) => {
         .then(attempts => res.json(attempts))
         .catch(err => res.status(400).json('Error: ' + err));
 });
+
+router.route('/scoresWeek').post((req,res) => {
+    const username = req.body.username
+    date = Date.now()
+    today = new Date(date)
+    week = 1000 * 60 * 60 * 24 * 7
+    lastWeek = new Date(today - week)
+    console.log(today, lastWeek, date, week)
+    Attempt.find({date : {$gte: lastWeek, $lte: today}, username: username}).sort({"score" : "desc"})
+        .then(attempts => res.json(attempts))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
 
 router.route('/add').post((req, res) => {
     const username = req.body.username;
